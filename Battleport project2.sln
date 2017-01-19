@@ -7,6 +7,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Battleport project2", "Batt
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "grid", "grid\grid.pyproj", "{F28FDEAF-C2A8-4503-A33B-F3DB974831DE}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "battleport code sven", "battleport code sven\battleport code sven.pyproj", "{CE608C78-5797-400A-9241-950ECB55031C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,8 @@ Global
 		{E03578D4-9098-4E43-B2E4-E33EAAFE9642}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F28FDEAF-C2A8-4503-A33B-F3DB974831DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F28FDEAF-C2A8-4503-A33B-F3DB974831DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE608C78-5797-400A-9241-950ECB55031C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE608C78-5797-400A-9241-950ECB55031C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
