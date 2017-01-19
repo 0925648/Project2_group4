@@ -1,5 +1,6 @@
 import pygame
 import time
+from pygame.rect import Rect
 clock=pygame.time.Clock()
 background_image = pygame.image.load("battleship_045.jpg")
 pygame.init()
@@ -15,6 +16,12 @@ Blue = (0,0,255)
 Red = (255,0,0)
 Green = (0,255,0)
 
+def grid(g_height, g_width, s_height, s_width,gap):
+    for y in range(g_height):
+        for x in range(g_width):
+            rect = pygame.Rect(x*(s_width+gap), y*(s_height+gap), s_height, s_width)
+            pygame.draw.rect(game_display, White, rect)
+            return grid
 def Menu():
     game_intro()
 
@@ -72,7 +79,6 @@ def text_objects1(text, font):
 def button(msg,x,y,w,h,ic,ac,l,action=None):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-    print(click)
     if x + w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(game_display, ac,(x,y,w,h),l)
         if click[0] == 1 and action != None:
@@ -108,11 +114,11 @@ def game_intro():
         TextRect.center = ((game_width/2),(game_height/2.5))
         game_display.blit(TextSurf, TextRect)
         
-        button("Instellingen",490,540,150,60,White,Green,5,instellingen)
-        button("Instructies",690,540,150,60,White,Green,5,instructies)
-        button("Highscores",910,540,150,60,White,Green,5,highscores)
-        button("Start Spel",270,540,150,60,White,Green,5,program)
-        button("Stop Spel",1120,650,150,60,White,Green,5,quit_game)
+        button("Start Spel",170,540,150,60,White,Green,5,program)
+        button("Instellingen",370,540,150,60,White,Green,5,instellingen)
+        button("Instructies",570,540,150,60,White,Green,5,instructies)
+        button("Highscores",770,540,150,60,White,Green,5,highscores)
+        button("Stop Spel",970,540,150,60,White,Green,5,quit_game)
 
         pygame.display.update()
         clock.tick(15)
@@ -139,21 +145,12 @@ def program():
     game_width = 1280
     game_height = 720
     size = (game_width, game_height)
-
     pygame.init()
-
     game_display = pygame.display.set_mode(size)
 
     while not process_events():
         pygame.display.update()
-        game_display.fill(Black)
- 
-
-        for y in range(20):
-            for x in range(20):
-                rect = pygame.Rect(x*(20+5), y*(20+5), 20, 20)
-                pygame.draw.rect(game_display, White, rect)
-                rect.center = ((game_width/2), (game_height/2))
+        game_display.blit(background_image, [0,0])
         button("Menu",1120,10,150,60,White,Green,5,Menu)
         pygame.display.flip()
         clock.tick(60)
