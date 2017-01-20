@@ -1,6 +1,6 @@
 import pygame
 import time
-from pygame.rect import Rect
+
 clock=pygame.time.Clock()
 background_image = pygame.image.load("battleship_045.jpg")
 pygame.init()
@@ -8,8 +8,12 @@ game_width = 1280
 game_height = 720
 size = (game_width, game_height)
 game_display = pygame.display.set_mode(size)
-display_width = 1280
-display_height = 720
+
+gridY = 20
+gridX = 20
+gridSize = 25
+tileSize = 20
+
 White = (255,255,255)
 Black = (0,0,0)
 Blue = (0,0,255)
@@ -147,10 +151,12 @@ def program():
     size = (game_width, game_height)
     pygame.init()
     game_display = pygame.display.set_mode(size)
-
     while not process_events():
         pygame.display.update()
-        game_display.blit(background_image, [0,0])
+        for y in range(gridY):
+            for x in range(gridX):
+                rect = pygame.Rect(x * gridSize + game_width / 2 - gridX * gridSize / 2, y * gridSize + game_height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                pygame.draw.rect(game_display, White, rect)
         button("Menu",1120,10,150,60,White,Green,5,Menu)
         pygame.display.flip()
         clock.tick(60)
