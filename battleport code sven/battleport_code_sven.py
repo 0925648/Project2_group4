@@ -119,9 +119,9 @@ def game_intro():
         game_display.blit(TextSurf, TextRect)
         
         button("Start Spel",170,540,150,60,White,Green,5,program)
-        button("Instellingen",370,540,150,60,White,Green,5,instellingen)
-        button("Instructies",570,540,150,60,White,Green,5,instructies)
-        button("Highscores",770,540,150,60,White,Green,5,highscores)
+        button("Instellingen",770,540,150,60,White,Green,5,instellingen)
+        button("Instructies",370,540,150,60,White,Green,5,instructies)
+        button("Highscores",570,540,150,60,White,Green,5,highscores)
         button("Stop Spel",970,540,150,60,White,Green,5,quit_game)
 
         pygame.display.update()
