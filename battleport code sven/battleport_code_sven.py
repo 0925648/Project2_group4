@@ -1,6 +1,10 @@
 import pygame
 import time
 
+"""
+hoi 
+"""
+
 clock=pygame.time.Clock()
 background_image = pygame.image.load("battleship_045.jpg")
 pygame.init()
