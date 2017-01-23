@@ -1,9 +1,4 @@
-import pygame
-import time
-
-"""
-hoi 
-"""
+import sys, pygame, time
 
 clock=pygame.time.Clock()
 background_image = pygame.image.load("battleship-045.jpg")
@@ -133,16 +128,10 @@ def game_intro():
 
 
 def process_events():
-    lead_x = 100
-    lead_y = 100
-    lead_x_change = 0
-    lead_y_change = 0
-
-    clock = pygame.time.Clock()
-    for event in pygame.event.get():
+      for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return True
-    return False
+        return False
 
 '''
 def message_display(text):
@@ -155,6 +144,7 @@ def message_display(text):
     time.sleep(2)
     program()
 '''
+schip = pygame.image.load("schip1.png")
 
 def program():
     game_width = 1280
@@ -168,9 +158,8 @@ def program():
             for x in range(gridX):
                 rect = pygame.Rect(x * gridSize + game_width / 2 - gridX * gridSize / 2, y * gridSize + game_height / 2 - gridY * gridSize / 2, tileSize, tileSize)
                 pygame.draw.rect(game_display, White, rect)
-        button("Menu",1120,10,150,60,White,Green,5,Menu) 
-    
-        mx, my = pygame.mouse.get_pos()
+        button("Menu",1120,10,150,60,White,Green,5,Menu)        
+        
         schip = pygame.image.load("schip1.png")
         
         for event in pygame.event.get():
@@ -180,9 +169,15 @@ def program():
                 mx, my = pygame.mouse.get_pos()
                 game_display.blit(schip, [mx,my])
 
+           
+           
+            
 
-    pygame.display.flip()
-    clock.tick(60)
+
+            
+
+pygame.display.flip()
+clock.tick(60)
 
 game_intro()        
 program()
