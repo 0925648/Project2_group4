@@ -22,7 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="battleport_code_sven.py" />
+    <Compile Include="..\..\..\..\..\Desktop\battleport_code_sven_backup.py">
+      <Link>battleport_code_sven_backup.py</Link>
+    </Compile>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

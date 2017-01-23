@@ -1,10 +1,70 @@
 import pygame
 import time
+import sys
 
-"""
-hoi 
-"""
+import pyglet, ctypes
 
+#setup pyglet & the video
+path = r"C:\Users\Denis\OneDrive\Pictures\battleport.mp4"
+
+player = pyglet.media.Player()
+source = pyglet.media.load(path)
+player.queue(source)
+player.play()
+
+#setup pygame
+pygame.init()
+pygame.display.set_mode((800,800), 0)
+pygame.display.set_caption("Introduction Battleport")
+screen = pygame.display.get_surface()
+pygame.display.flip()
+
+#blit the video in a standard pygame event loop
+while True:
+    events = pygame.event.get()
+    for event in events:
+        if event.type == pygame.QUIT:
+            sys.exit(0)
+    screen.fill(0)
+    
+    player.dispatch_events()
+    tex = player.get_texture()
+    raw = tex.get_image_data().get_data('RGBA',tex.width*4)
+    raw = ctypes.string_at(ctypes.addressof(raw), ctypes.sizeof(raw))
+    img = pygame.image.frombuffer(raw, (tex.width, tex.height), 'RGBA')
+    screen.blit(img, (0,0))
+    
+    pygame.display.flip()
+
+
+# supply width and height of video
+window = pyglet.window.Window(w, h)
+
+video = pyglet.media.Player() # create a video player
+media = pyglet.media.load('') # supply the media file
+
+video.queue(media) # add the media file to the queue
+video.play()       # begin to play file on the queue
+
+@window.event
+def on_draw():
+    # now rendering the media file 
+    video.get_texture().blit(0, 0)
+
+pyglet.app.run() # run the program
+
+
+
+playing = True
+while playing:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            movie.stop()
+            playing = False
+
+    screen.blit(movie_screen,(0,0))
+    pygame.display.update()
+    clock.tick(FPS)
 clock=pygame.time.Clock()
 background_image = pygame.image.load("battleship_045.jpg")
 pygame.init()
