@@ -133,44 +133,10 @@ def game_intro():
 
 
 def process_events():
-    lead_x = 100
-    lead_y = 100
-    lead_x_change = 0
-    lead_y_change = 0
-
-    clock = pygame.time.Clock()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            return True                 # Vanaf deze line is er een code met het nog niet werkende, bewegende vierkantje.
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                lead_x_change = -10
-                lead_y_change = 0
-            elif event.key == pygame.K_RIGHT:
-                lead_x_change = 10
-                lead_y_change = 0
-
-            elif event.key == pygame.K_UP:
-                lead_y_change = -10
-                lead_x_change = 0
-            elif event.key == pygame.K_DOWN:
-                lead_y_change = 10
-                lead_x_change = 0
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                lead_x_change = 0 #stopt het vierkantje als je de knop omhoog doet.
-
-        if lead_x >= 1280 or lead_x < 0 or lead_y >= 720 or lead_y < 0:
-            return True
-
-    lead_x += lead_x_change 
-    lead_y += lead_y_change
-    pygame.draw.rect(game_display, Red, [lead_x, lead_y, 10, 10])
-    pygame.display.update()
-
-    clock.tick(30)                      # Hier stopt de code van het niet werkende, bewegende vierkantje.
-
+            return True            
+        
     return False
 
 '''
@@ -185,6 +151,8 @@ def message_display(text):
     program()
 '''
 
+
+
 def program():
     game_width = 1280
     game_height = 720
@@ -198,7 +166,20 @@ def program():
                 rect = pygame.Rect(x * gridSize + game_width / 2 - gridX * gridSize / 2, y * gridSize + game_height / 2 - gridY * gridSize / 2, tileSize, tileSize)
                 pygame.draw.rect(game_display, White, rect)
         button("Menu",1120,10,150,60,White,Green,5,Menu) 
-    
+
+        mx, my = pygame.mouse.get_pos()
+        schip = pygame.image.load("schip.png")
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mx, my = pygame.mouse.get_pos()
+                game_display.blit(schip, [mx,my])
+
+        
+                
+        
 
     pygame.display.flip()
     clock.tick(60)
