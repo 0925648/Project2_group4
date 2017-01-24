@@ -1,10 +1,13 @@
 import pygame
+import pygame.font
+from pygame.locals import *
 import time
 
 pygame.init()
 
-width = 1250
+width = 1280
 height = 720
+fps = 60
 
 black = (0,0,0)
 white = (255,255,255)
@@ -29,17 +32,162 @@ def Menu():
     game_intro()
 
 
+def Verder():
+    size = (width, height)
+    pygame.init()
+    screen.blit(background, [0, 0])
+    pygame.draw.rect(screen, white,[320,100,640,500])
+
+
+    def render_textrect(string, font, rect, text_color, background, justification=0):
+    
+        final_lines = []
+        requested_lines = string.splitlines()
+
+        for requested_line in requested_lines:
+            if font.size(requested_line)[0] > rect.width:
+                words = requested_line.split(' ')
+                # Start a new line
+                accumulated_line = ""
+                for word in words:
+                    test_line = accumulated_line + word + " "
+                    # Build the line while the words fit.    
+                    if font.size(test_line)[0] < rect.width:
+                        accumulated_line = test_line 
+                    else: 
+                        final_lines.append(accumulated_line) 
+                        accumulated_line = word + " " 
+                final_lines.append(accumulated_line)
+            else: 
+                final_lines.append(requested_line) 
+
+        # Let's try to write the text out on the surface.
+
+        surface = pygame.Surface(rect.size) 
+        surface.fill(black) 
+
+        accumulated_height = 0 
+        for line in final_lines: 
+            if accumulated_height + font.size(line)[1] >= rect.height:
+                raise TextRectException
+            if line != "":
+                tempsurface = font.render(line, 1, text_color)
+                if justification == 0:
+                    surface.blit(tempsurface, (0, accumulated_height))
+                elif justification == 1:
+                    surface.blit(tempsurface, ((rect.width - tempsurface.get_width()) / 2, accumulated_height))
+                elif justification == 2:
+                    surface.blit(tempsurface, (rect.width - tempsurface.get_width(), accumulated_height))
+                else:
+                    raise TextRectException 
+            accumulated_height += font.size(line)[1]
+        return surface
+    # text has  to be editted. Not correct yet! 
+    if __name__ == '__main__':
+        my_font = pygame.font.Font(None, 30)
+        my_string = "Regels \n\n\nblabla\n\nTekst moet nog gewijzigd worden.\n\nBattleport kan gezien worden als een mix van Zeeslag en Hearthstone. Dit omdat de gameplay lijkt op dat van Zeeslag, maar kunnen de boten nu ook verplaatst worden. Ook zijn er twee decks met kaarten die jou helpen om van je tegenstander te winnen.\n\nBeide spelers hebben vier boten en een hand met kaarten. De bedoeling van dit strategische spel in om alle schepen van je tegenstander uit te schakelen. Zet tactische zetten en gebruik je kaarten slim. Doe dit beter dan je tegenstander en de winst is voor jou."
+        my_rect = pygame.draw.rect(screen, black,[325,105,630,490])
+    
+        rendered_text = render_textrect(my_string, my_font, my_rect, (216, 216, 216), (48, 48, 48), 0)
+
+        if rendered_text:
+            screen.blit(rendered_text, my_rect.topleft)
+
+        pygame.display.update()
+
+    while not process_events():
+        pygame.display.update()                        
+        button("Menu",1120,10,150,60,white,green,5,Menu)
+        button("Vorige", 10, 650, 150, 60,white,green,5,Vorige)
+        pygame.display.flip()
+        clock.tick(fps)
+
+
+
+def Vorige():
+    size = (width, height)
+    pygame.init()
+    screen.blit(background, [0, 0])
+
+    while not process_events():
+        instructies()
+
+
+
 # instructions menu
 def instructies():
     size = (width, height)
     pygame.init()
     screen.blit(background, [0,0])
+    pygame.draw.rect(screen, white,[320,100,640,500])
+
+
+    def render_textrect(string, font, rect, text_color, background, justification=0):
+    
+        final_lines = []
+        requested_lines = string.splitlines()
+
+        for requested_line in requested_lines:
+            if font.size(requested_line)[0] > rect.width:
+                words = requested_line.split(' ')
+                # Start a new line
+                accumulated_line = ""
+                for word in words:
+                    test_line = accumulated_line + word + " "
+                    # Build the line while the words fit.    
+                    if font.size(test_line)[0] < rect.width:
+                        accumulated_line = test_line 
+                    else: 
+                        final_lines.append(accumulated_line) 
+                        accumulated_line = word + " " 
+                final_lines.append(accumulated_line)
+            else: 
+                final_lines.append(requested_line) 
+
+        # Let's try to write the text out on the surface.
+
+        surface = pygame.Surface(rect.size) 
+        surface.fill(black) 
+
+        accumulated_height = 0 
+        for line in final_lines: 
+            if accumulated_height + font.size(line)[1] >= rect.height:
+                raise TextRectException
+            if line != "":
+                tempsurface = font.render(line, 1, text_color)
+                if justification == 0:
+                    surface.blit(tempsurface, (0, accumulated_height))
+                elif justification == 1:
+                    surface.blit(tempsurface, ((rect.width - tempsurface.get_width()) / 2, accumulated_height))
+                elif justification == 2:
+                    surface.blit(tempsurface, (rect.width - tempsurface.get_width(), accumulated_height))
+                else:
+                    raise TextRectException 
+            accumulated_height += font.size(line)[1]
+        return surface
+
+
+
+    if __name__ == '__main__':
+        my_font = pygame.font.Font(None, 30)
+        my_string = "Instructies \n\n\nBattleport kan gezien worden als een mix van Zeeslag en Hearthstone. Dit omdat de gameplay lijkt op dat van Zeeslag, maar kunnen de boten nu ook verplaatst worden. Ook zijn er twee decks met kaarten die jou helpen om van je tegenstander te winnen.\n\nBeide spelers hebben vier boten en een hand met kaarten. De bedoeling van dit strategische spel in om alle schepen van je tegenstander uit te schakelen. Zet tactische zetten en gebruik je kaarten slim. Doe dit beter dan je tegenstander en de winst is voor jou."
+        my_rect = pygame.draw.rect(screen, black,[325,105,630,490])
+    
+        rendered_text = render_textrect(my_string, my_font, my_rect, (216, 216, 216), (48, 48, 48), 0)
+
+        if rendered_text:
+            screen.blit(rendered_text, my_rect.topleft)
+
+        pygame.display.update()
+
+       
 
     while not process_events():
         pygame.display.update()
-        button("Menu", 1075, 10, 150, 60, white, green, 5, Menu)
+        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
+        button("Verder", 1120, 650, 150, 60,white,green,5,Verder)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(fps)
 
 
 # highscores menu
@@ -50,9 +198,9 @@ def highscores():
 
     while not process_events():
         pygame.display.update()
-        button("Menu", 1075, 10, 150, 60, white, green, 5, Menu)
+        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(fps)
 
 # settings menu
 def instellingen():
@@ -62,9 +210,9 @@ def instellingen():
 
     while not process_events():
         pygame.display.update()
-        button("Menu", 1075, 10, 150, 60, white, green, 5, Menu)
+        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(fps)
 
 
 # intro "Battleport" text
@@ -129,7 +277,7 @@ def game_intro():
         
 
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(fps)
 
 
 
@@ -154,9 +302,11 @@ def program():
                 rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
                 pygame.draw.rect(screen, white, rect)
 
-        button("Menu", 1075, 10, 150, 60, white, green, 5, Menu)
+        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(fps)
+
+
 
 
 
