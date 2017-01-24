@@ -133,6 +133,117 @@ def process_events():
             return True
         return False
 
+def program():
+    game_width = 1280
+    game_height = 720
+    size = (game_width, game_height)
+    pygame.init()
+    game_display = pygame.display.set_mode(size) 
+   
+    while not process_events():
+        pygame.display.update()
+        for y in range(gridY):
+            for x in range(gridX):
+                rect = pygame.Rect(x * gridSize + game_width / 2 - gridX * gridSize / 2, y * gridSize + game_height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                pygame.draw.rect(game_display, White, rect)
+        button("Menu",1120,10,150,60,White,Green,5,Menu)  
+        
+             
+        
+while not process_events:
+    image = pygame.image.load("schip1.png").convert()
+# get the rectangle the image occupies
+# rec(x, y, w, h)
+    start_rect = image.get_rect()
+    image_rect = start_rect
+    running = True
+    while running:
+        event = pygame.event.poll()
+        keyinput = pygame.key.get_pressed()
+        # exit on corner 'x' click or escape key press
+        if keyinput[pygame.K_ESCAPE]:
+            raise SystemExit
+        elif event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            print(event.pos, list(event.pos))  # test
+            mouse_loc = "mouse click at (%d, %d)" % event.pos
+            pygame.display.set_caption(mouse_loc)
+            mouse_pos = list(event.pos)
+            image_rect = start_rect.move(mouse_pos)
+      
+        # this erases the old sreen with black
+        game_display.fill(Black)
+        # put the image on the screen
+        game_display.blit(image, image_rect)
+        # update screen
+
+pygame.display.flip()
+clock.tick(60)
+
+game_intro()        
+program()
+
+
+# stempel schip code
+"""" schip = pygame.image.load("schip1.png")      
+            
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mx, my = pygame.mouse.get_pos()
+                
+            game_display.blit(schip, [mx,my])"""
+            
+# ----------- Code met een schip die het wel goed doet (dus geen stempel)
+# maar doet het niet in onze code met de grid en alles -__- -------------
+"""
+import pygame as pg
+# initialize pygame
+pg.init()
+# use an image you have (.bmp  .jpg  .png  .gif)
+image_file = "schip1.png"
+# RGB color tuple for screen background
+black = (0,0,0)
+# screen width and height
+sw = 640
+sh = 480
+# create a screen
+screen = pg.display.set_mode((sw, sh))
+# give the screen a title
+pg.display.set_caption('image follows mouse click position')
+# load an image
+# convert() unifies the pixel format for faster blit
+image = pg.image.load(image_file).convert()
+# get the rectangle the image occupies
+# rec(x, y, w, h)
+start_rect = image.get_rect()
+image_rect = start_rect
+running = True
+while running:
+    event = pg.event.poll()
+    keyinput = pg.key.get_pressed()
+    # exit on corner 'x' click or escape key press
+    if keyinput[pg.K_ESCAPE]:
+        raise SystemExit
+    elif event.type == pg.QUIT:
+        running = False
+    elif event.type == pg.MOUSEBUTTONDOWN:
+        print event.pos, list(event.pos)  # test
+        mouse_loc = "mouse click at (%d, %d)" % event.pos
+        pg.display.set_caption(mouse_loc)
+        mouse_pos = list(event.pos)
+        image_rect = start_rect.move(mouse_pos)
+    # this erases the old sreen with black
+    screen.fill(black)
+    # put the image on the screen
+    screen.blit(image, image_rect)
+    # update screen
+    pg.display.flip()
+"""
+
+
 '''
 def message_display(text):
     largeText = pygame.font.Font('freesansbold.ttf',20)
@@ -144,40 +255,3 @@ def message_display(text):
     time.sleep(2)
     program()
 '''
-schip = pygame.image.load("schip1.png")
-
-def program():
-    game_width = 1280
-    game_height = 720
-    size = (game_width, game_height)
-    pygame.init()
-    game_display = pygame.display.set_mode(size)
-    while not process_events():
-        pygame.display.update()
-        for y in range(gridY):
-            for x in range(gridX):
-                rect = pygame.Rect(x * gridSize + game_width / 2 - gridX * gridSize / 2, y * gridSize + game_height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                pygame.draw.rect(game_display, White, rect)
-        button("Menu",1120,10,150,60,White,Green,5,Menu)        
-        
-        schip = pygame.image.load("schip1.png")
-        
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mx, my = pygame.mouse.get_pos()
-                game_display.blit(schip, [mx,my])
-
-           
-           
-            
-
-
-            
-
-pygame.display.flip()
-clock.tick(60)
-
-game_intro()        
-program()
