@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e03578d4-9098-4e43-b2e4-e33eaafe9642</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Battleport_project2.py</StartupFile>
+    <StartupFile>stempel bootje.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

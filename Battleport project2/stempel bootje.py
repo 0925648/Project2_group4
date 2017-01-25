@@ -1,273 +1,352 @@
-import sys, pygame, time
+import pygame, time, os, sys
 
-clock=pygame.time.Clock()
-background_image = pygame.image.load("battleship-045.jpg")
 pygame.init()
-game_width = 1280
-game_height = 720
-size = (game_width, game_height)
-game_display = pygame.display.set_mode(size)
 
+width = 1280
+height = 720
+fps = 60
+
+black = (0,0,0)
+white = (255,255,255)
+blue = (0,0,255)
+red = (255,0,0)
+green = (0,255,0)
+
+# Grids
 gridY = 20
 gridX = 20
 gridSize = 25
 tileSize = 20
 
-White = (255,255,255)
-Black = (0,0,0)
-Blue = (0,0,255)
-Red = (255,0,0)
-Green = (0,255,0)
+image_file = "schip1.png"
+background = pygame.image.load("battleship-045.jpg")
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption('Battleport')
+clock = pygame.time.Clock()
 
-def grid(g_height, g_width, s_height, s_width,gap):
-    for y in range(g_height):
-        for x in range(g_width):
-            rect = pygame.Rect(x*(s_width+gap), y*(s_height+gap), s_height, s_width)
-            pygame.draw.rect(game_display, White, rect)
-            return grid
+
 def Menu():
     game_intro()
 
+
+def Verder():
+    size = (width, height)
+    pygame.init()
+    screen.blit(background, [0, 0])
+    pygame.draw.rect(screen, white,[320,100,640,500])
+
+
+    def render_textrect(string, font, rect, text_color, background, justification=0):
+    
+        final_lines = []
+        requested_lines = string.splitlines()
+
+        for requested_line in requested_lines:
+            if font.size(requested_line)[0] > rect.width:
+                words = requested_line.split(' ')
+                # Start a new line
+                accumulated_line = ""
+                for word in words:
+                    test_line = accumulated_line + word + " "
+                    # Build the line while the words fit.    
+                    if font.size(test_line)[0] < rect.width:
+                        accumulated_line = test_line 
+                    else: 
+                        final_lines.append(accumulated_line) 
+                        accumulated_line = word + " " 
+                final_lines.append(accumulated_line)
+            else: 
+                final_lines.append(requested_line) 
+
+        # Let's try to write the text out on the surface.
+
+        surface = pygame.Surface(rect.size) 
+        surface.fill(black) 
+
+        accumulated_height = 0 
+        for line in final_lines: 
+            if accumulated_height + font.size(line)[1] >= rect.height:
+                raise TextRectException
+            if line != "":
+                tempsurface = font.render(line, 1, text_color)
+                if justification == 0:
+                    surface.blit(tempsurface, (0, accumulated_height))
+                elif justification == 1:
+                    surface.blit(tempsurface, ((rect.width - tempsurface.get_width()) / 2, accumulated_height))
+                elif justification == 2:
+                    surface.blit(tempsurface, (rect.width - tempsurface.get_width(), accumulated_height))
+                else:
+                    raise TextRectException 
+            accumulated_height += font.size(line)[1]
+        return surface
+    # text has  to be editted. Not correct yet! 
+    if __name__ == '__main__':
+        my_font = pygame.font.Font(None, 30)
+        my_string = "Regels \n\n\nblabla\n\nTekst moet nog gewijzigd worden.\n\nBattleport kan gezien worden als een mix van Zeeslag en Hearthstone. Dit omdat de gameplay lijkt op dat van Zeeslag, maar kunnen de boten nu ook verplaatst worden. Ook zijn er twee decks met kaarten die jou helpen om van je tegenstander te winnen.\n\nBeide spelers hebben vier boten en een hand met kaarten. De bedoeling van dit strategische spel in om alle schepen van je tegenstander uit te schakelen. Zet tactische zetten en gebruik je kaarten slim. Doe dit beter dan je tegenstander en de winst is voor jou."
+        my_rect = pygame.draw.rect(screen, black,[325,105,630,490])
+    
+        rendered_text = render_textrect(my_string, my_font, my_rect, (216, 216, 216), (48, 48, 48), 0)
+
+        if rendered_text:
+            screen.blit(rendered_text, my_rect.topleft)
+
+        pygame.display.update()
+
+    while not process_events():
+        pygame.display.update()                        
+        button("Menu",1120,10,150,60,white,green,5,Menu)
+        button("Vorige", 10, 650, 150, 60,white,green,5,Vorige)
+        pygame.display.flip()
+        clock.tick(fps)
+
+
+
+def Vorige():
+    size = (width, height)
+    pygame.init()
+    screen.blit(background, [0, 0])
+
+    while not process_events():
+        instructies()
+
+
+
+# instructions menu
 def instructies():
-    game_width = 1280
-    game_height = 720
-    size = (game_width, game_height)
+    size = (width, height)
     pygame.init()
-    game_display.blit(background_image, [0,0])
+    screen.blit(background, [0,0])
+    pygame.draw.rect(screen, white,[320,100,640,500])
+
+
+    def render_textrect(string, font, rect, text_color, background, justification=0):
+    
+        final_lines = []
+        requested_lines = string.splitlines()
+
+        for requested_line in requested_lines:
+            if font.size(requested_line)[0] > rect.width:
+                words = requested_line.split(' ')
+                # Start a new line
+                accumulated_line = ""
+                for word in words:
+                    test_line = accumulated_line + word + " "
+                    # Build the line while the words fit.    
+                    if font.size(test_line)[0] < rect.width:
+                        accumulated_line = test_line 
+                    else: 
+                        final_lines.append(accumulated_line) 
+                        accumulated_line = word + " " 
+                final_lines.append(accumulated_line)
+            else: 
+                final_lines.append(requested_line) 
+
+        # Let's try to write the text out on the surface.
+
+        surface = pygame.Surface(rect.size) 
+        surface.fill(black) 
+
+        accumulated_height = 0 
+        for line in final_lines: 
+            if accumulated_height + font.size(line)[1] >= rect.height:
+                raise TextRectException
+            if line != "":
+                tempsurface = font.render(line, 1, text_color)
+                if justification == 0:
+                    surface.blit(tempsurface, (0, accumulated_height))
+                elif justification == 1:
+                    surface.blit(tempsurface, ((rect.width - tempsurface.get_width()) / 2, accumulated_height))
+                elif justification == 2:
+                    surface.blit(tempsurface, (rect.width - tempsurface.get_width(), accumulated_height))
+                else:
+                    raise TextRectException 
+            accumulated_height += font.size(line)[1]
+        return surface
+
+
+
+    if __name__ == '__main__':
+        my_font = pygame.font.Font(None, 30)
+        my_string = "Instructies \n\n\nBattleport kan gezien worden als een mix van Zeeslag en Hearthstone. Dit omdat de gameplay lijkt op dat van Zeeslag, maar kunnen de boten nu ook verplaatst worden. Ook zijn er twee decks met kaarten die jou helpen om van je tegenstander te winnen.\n\nBeide spelers hebben vier boten en een hand met kaarten. De bedoeling van dit strategische spel in om alle schepen van je tegenstander uit te schakelen. Zet tactische zetten en gebruik je kaarten slim. Doe dit beter dan je tegenstander en de winst is voor jou."
+        my_rect = pygame.draw.rect(screen, black,[325,105,630,490])
+    
+        rendered_text = render_textrect(my_string, my_font, my_rect, (216, 216, 216), (48, 48, 48), 0)
+
+        if rendered_text:
+            screen.blit(rendered_text, my_rect.topleft)
+
+        pygame.display.update()
+
+       
 
     while not process_events():
         pygame.display.update()
-        button("Menu",1120,10,150,60,White,Green,5,Menu)
+        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
+        button("Verder", 1120, 650, 150, 60,white,green,5,Verder)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(fps)
 
+
+# highscores menu
 def highscores():
-    game_width = 1280
-    game_height = 720
-    size = (game_width, game_height)
+    size = (width, height)
     pygame.init()
-    game_display.blit(background_image, [0,0])
+    screen.blit(background, [0,0])
 
     while not process_events():
         pygame.display.update()
-        button("Menu",1120,10,150,60,White,Green,5,Menu)
+        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(fps)
 
+# settings menu
 def instellingen():
-    game_width = 1280
-    game_height = 720
-    size = (game_width, game_height)
+    size = (width, height)
     pygame.init()
-    game_display.blit(background_image, [0,0])
+    screen.blit(background, [0,0])
 
     while not process_events():
         pygame.display.update()
-        button("Menu",1120,10,150,60,White,Green,5,Menu)
+        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(fps)
 
-def quit_game():
-    pygame.quit()
-    quit()
 
+# intro "Battleport" text
 def text_objects(text, font):
-    textSurface = font.render(text, True, White)
+    textSurface = font.render(text, True, white)
     return textSurface, textSurface.get_rect()
 
 def text_objects1(text, font):
-    textSurface = font.render(text, True, Black)
+    textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
-def button(msg,x,y,w,h,ic,ac,l,action=None):
+
+# button functionality
+def button(text, x, y, w, h, ic, ac, l, action=None):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
+    #print(click)
+    
     if x + w > mouse[0] > x and y + h > mouse[1] > y:
-        pygame.draw.rect(game_display, ac,(x,y,w,h),l)
+        pygame.draw.rect(screen, ac,(x, y, w, h), l)
         if click[0] == 1 and action != None:
             action()
-    else:     
-        pygame.draw.rect(game_display, ic,(x,y,w,h),l)
+    else:
+        pygame.draw.rect(screen, ic,(x, y, w, h), l)
 
-    smallText = pygame.font.SysFont("Bauhaus93",20)
-    TextSurf, TextRect = text_objects(msg, smallText)
-    TextRect.center = ((x+(w/2)), (y+(h/2)))
-    game_display.blit(TextSurf, TextRect)
+    smallText = pygame.font.SysFont("bauhaus93",20)
+    textSurf, textRect = text_objects(text, smallText)
+    textRect.center = ((x + (w / 2)), (y + (h / 2)))
+    screen.blit(textSurf, textRect)
 
-mouse = pygame.mouse.get_pos()
 
-def game_intro(): 
 
-    intro = False
-
-    while not intro:
+# menu screen
+def game_intro():
+    intro = True
+    while intro:
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    intro = True
-                 
-        game_display.blit(background_image, [0,0])
-        largeText = pygame.font.SysFont('Bauhaus93',155)
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        screen.blit(background, [0,0])
+        largeText = pygame.font.SysFont('bauhaus93',130)
         TextSurf, TextRect = text_objects("Battleport", largeText)
-        TextRect.center = ((game_width/2),(game_height/2.5))
-        game_display.blit(TextSurf, TextRect)
-                                          
-        largeText = pygame.font.SysFont('Bauhaus93',150)
+        TextRect.center = ((width/2),(height/3.5))
+        screen.blit(TextSurf, TextRect)
+
+        largeText = pygame.font.SysFont('Bauhaus93',125)
         TextSurf, TextRect = text_objects1("Battleport", largeText)
-        TextRect.center = ((game_width/2),(game_height/2.5))
-        game_display.blit(TextSurf, TextRect)
+        TextRect.center = ((width/2),(height/3.5))
+        screen.blit(TextSurf, TextRect)
+
+        mouse = pygame.mouse.get_pos()
+        #print(mouse)
+
+        button("Start Spel", 150, 550, 150, 50, white, green, 5, program)
+        button("Instructies", 350, 550, 150, 50, white, green, 5, instructies)
+        button("Highscores", 550, 550, 150, 50, white, green, 5, highscores)
+        button("Instellingen", 750, 550, 150, 50, white, green, 5, instellingen)
+        button("Stop Spel", 950, 550, 150, 50, white, green, 5, quit)
         
-        button("Start Spel",170,540,150,60,White,Green,5,program)
-        button("Instellingen",770,540,150,60,White,Green,5,instellingen)
-        button("Instructies",370,540,150,60,White,Green,5,instructies)
-        button("Highscores",570,540,150,60,White,Green,5,highscores)
-        button("Stop Spel",970,540,150,60,White,Green,5,quit_game)
 
         pygame.display.update()
-        clock.tick(15)
+        clock.tick(fps)
 
 
+
+# process events
 def process_events():
-      for event in pygame.event.get():
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return True
-        return False
+    return False
 
+
+
+
+# game program
 def program():
-    game_width = 1280
-    game_height = 720
-    size = (game_width, game_height)
-    pygame.init()
-    game_display = pygame.display.set_mode(size) 
-   
     while not process_events():
-        pygame.display.update()
-        
-        image = pygame.image.load("schip1.png").convert()
-        # get the rectangle the image occupies
-        # rec(x, y, w, h)
-        start_rect = image.get_rect()
-        image_rect = start_rect
-        running = True
-        while running:
-            event = pygame.event.poll()
-            keyinput = pygame.key.get_pressed()
-            # exit on corner 'x' click or escape key press
-            if keyinput[pygame.K_ESCAPE]:
-                raise SystemExit
-            elif event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                print(event.pos, list(event.pos))  # test
-                mouse_loc = "mouse click at (%d, %d)" % event.pos
-                pygame.display.set_caption(mouse_loc)
-                mouse_pos = list(event.pos)
-                image_rect = start_rect.move(mouse_pos)
-      
-            # this erases the old sreen with black
-            game_display.fill(Black)
-            # put the image on the screen
-            game_display.blit(image, image_rect)
-            # update screen
-            pygame.display.flip()
-            button("Menu",1120,10,150,60,White,Green,5,Menu)  
+        image = pygame.image.load(image_file).convert()
 
-  
-        
+        class Character:
+            def __init__(self,rect):
+                self.rect = pygame.Rect(rect)
+                self.click = False
+                self.image = pygame.Surface(self.rect.size).convert()
+                self.image.fill((255,0,0))
+            def update(self,surface):
+                if self.click:
+                    self.rect.center = pygame.mouse.get_pos()
+                surface.blit(self.image,self.rect)
 
+        def main(Surface,Player):
+            game_event_loop(Player)
+            screen.fill(black)
+            Player.update(Surface)
+        def game_event_loop(Player):
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if Player.rect.collidepoint(event.pos):
+                        Player.click = True
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    Player.click = False
+                elif event.type == pygame.QUIT:
+                    pygame.quit(); sys.exit()
 
-pygame.display.flip()
-clock.tick(60)
+        if __name__ == "__main__":
+            os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-game_intro()        
-program()
-
-
-# Sven's grid code voor het geval we hem ooit nog nodig hebben. :)
-"""
-def program():
-    game_width = 1280
-    game_height = 720
-    size = (game_width, game_height)
-    pygame.init()
-    game_display = pygame.display.set_mode(size)
-    while not process_events():
-        pygame.display.update()
-        for y in range(gridY):
-            for x in range(gridX):
-                rect = pygame.Rect(x * gridSize + game_width / 2 - gridX * gridSize / 2, y * gridSize + game_height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                pygame.draw.rect(game_display, White, rect)
-        button("Menu",1120,10,150,60,White,Green,5,Menu) 
-"""
-
-
-# stempel schip code
-"""" schip = pygame.image.load("schip1.png")      
             
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mx, my = pygame.mouse.get_pos()
+            for y in range(20):
+                for x in range(20):
+                    rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                    pygame.draw.rect(screen, white, rect)
+            MyPlayer = Character((0,0,50,50)) #grootte vierkant
+            MyPlayer.rect.center = screen.get_rect().center #beginpositie vierkant
+            while 1:
+                main(screen,MyPlayer)
                 
-            game_display.blit(schip, [mx,my])"""
-            
-# ----------- Code met een schip die het wel goed doet (dus geen stempel)
-# maar doet het niet in onze code met de grid en alles -__- -------------
-"""
-import pygame as pg
-# initialize pygame
-pg.init()
-# use an image you have (.bmp  .jpg  .png  .gif)
-image_file = "schip1.png"
-# RGB color tuple for screen background
-black = (0,0,0)
-# screen width and height
-sw = 640
-sh = 480
-# create a screen
-screen = pg.display.set_mode((sw, sh))
-# give the screen a title
-pg.display.set_caption('image follows mouse click position')
-# load an image
-# convert() unifies the pixel format for faster blit
-image = pg.image.load(image_file).convert()
-# get the rectangle the image occupies
-# rec(x, y, w, h)
-start_rect = image.get_rect()
-image_rect = start_rect
-running = True
-while running:
-    event = pg.event.poll()
-    keyinput = pg.key.get_pressed()
-    # exit on corner 'x' click or escape key press
-    if keyinput[pg.K_ESCAPE]:
-        raise SystemExit
-    elif event.type == pg.QUIT:
-        running = False
-    elif event.type == pg.MOUSEBUTTONDOWN:
-        print(event.pos, list(event.pos))  # test
-        mouse_loc = "mouse click at (%d, %d)" % event.pos
-        pg.display.set_caption(mouse_loc)
-        mouse_pos = list(event.pos)
-        image_rect = start_rect.move(mouse_pos)
-    # this erases the old sreen with black
-    screen.fill(black)
-    # put the image on the screen
-    screen.blit(image, image_rect)
-    # update screen
-    pg.display.flip()
-    """
+                    
+
+                button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
+                
+                pygame.display.flip()
+                clock.tick(fps)
 
 
-'''
-def message_display(text):
-    largeText = pygame.font.Font('freesansbold.ttf',20)
-    TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = ((game_width/2), (game_height/2))
-    game_display.blit (TextSurf, TextRect)
 
-    pygame.display.update()
-    time.sleep(2)
-    program()
-'''
+
+
+        
+
+
+
+game_intro()
+program()
+pygame.quit()
+quit()
