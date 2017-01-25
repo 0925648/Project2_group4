@@ -1,6 +1,4 @@
 import pygame
-import pygame.font
-from pygame.locals import *
 import time
 
 pygame.init()
@@ -21,7 +19,7 @@ gridX = 20
 gridSize = 25
 tileSize = 20
 
-
+image_file = "schip1.png"
 background = pygame.image.load("battleship-045.jpg")
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Battleport')
@@ -229,7 +227,7 @@ def text_objects1(text, font):
 def button(text, x, y, w, h, ic, ac, l, action=None):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-    print(click)
+    #print(click)
     
     if x + w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(screen, ac,(x, y, w, h), l)
@@ -294,19 +292,43 @@ def process_events():
 # game program
 def program():
     while not process_events():
-        pygame.display.update()
-        screen.fill(black)
+        image = pygame.image.load(image_file).convert()
+        start_rect = image.get_rect()
+        image_rect = start_rect
+        running = True
+        while running:
+            
+            event = pygame.event.poll()
+            keyinput = pygame.key.get_pressed()
+            # exit on corner 'x' click or escape key press
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                print(event.pos, list(event.pos))  # test
+                mouse_loc = "mouse click at (%d, %d)" % event.pos
+                pygame.display.set_caption(mouse_loc)
+                mouse_pos = list(event.pos)
+                image_rect = start_rect.move(mouse_pos)
+            # this erases the old sreen with black
+            screen.fill(black)
+            for y in range(20):
+                for x in range(20):
+                    rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                    pygame.draw.rect(screen, white, rect)
+            # put the image on the screen
+            screen.blit(image, image_rect)
+            # update screen
 
-        for y in range(20):
-            for x in range(20):
-                rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                pygame.draw.rect(screen, white, rect)
-
-        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
-        pygame.display.flip()
-        clock.tick(fps)
+            button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
+            pygame.display.flip()
+            clock.tick(fps)
 
 
+
+
+
+        
 
 
 
