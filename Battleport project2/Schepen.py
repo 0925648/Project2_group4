@@ -25,6 +25,11 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Battleport')
 clock = pygame.time.Clock()
 
+def grid():
+    for y in range(20):
+        for x in range(20):
+            rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+            pygame.draw.rect(screen, white, rect)
 
 def Menu():
     game_intro()
@@ -280,82 +285,110 @@ def game_intro():
         pygame.display.update()
         clock.tick(fps)
 
+class bootje:
+    def __init__ (self, ship_x, ship_y):
+        self.ship_x = ship_x
+        self.ship_y = ship_y
+        self.ship_active = False
+    
+    def ship(self, w, h, ic, ac, action=None):
+        
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+    
+        if self.ship_x + w > mouse[0] > self.ship_x and self.ship_y + h > mouse[1] > self.ship_y:
+            pygame.draw.rect(screen, ac,(self.ship_x, self.ship_y, w, h))
+            if click[0] == 1:
+                self.ship_active = True
+                return
+        else:
+            if click[0] == 1:
+                self.ship_active = False
 
+        if self.ship_active:
+             pygame.draw.rect(screen, blue,(self.ship_x, self.ship_y, w, h))
+        else:
+             pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, w, h))
+
+    def move(self):
+        if self.ship_active:
+            keys = pygame.key.get_pressed()
+            if keys [pygame.K_LEFT]:
+                self.ship_x = self.ship_x - 25
+                self.ship_active = False
+                screen.fill(black)
+                grid()            
+            if keys[pygame.K_RIGHT]:
+                self.ship_x = self.ship_x + 25
+                self.ship_active = False
+                screen.fill(black)
+                grid()
+            if keys[pygame.K_UP]:
+                self.ship_y = self.ship_y - 25
+                self.ship_active = False
+                screen.fill(black)
+                grid()
+            if keys[pygame.K_DOWN]:
+                self.ship_y = self.ship_y + 25
+                self.ship_active = False
+                screen.fill(black)
+                grid()
 
 # process events
 def process_events():
-    global ship_x
-    global ship_y
-    for y in range(20):
-        for x in range(20):
-            rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-            pygame.draw.rect(screen, white, rect)
-    
+    #boot = b
+    #global ship_x
+    #global ship_y
+    grid()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return True
-        if event.type == pygame.KEYDOWN:
-             if event.key == pygame.K_LEFT and ship_active:
-                ship_x = ship_x - 25
-                screen.fill(black)
-                for y in range(20):
-                    for x in range(20):
-                        rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                        pygame.draw.rect(screen, white, rect)
-             if event.key == pygame.K_RIGHT and ship_active:
-                ship_x = ship_x + 25
-                screen.fill(black)
-                for y in range(20):
-                    for x in range(20):
-                        rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                        pygame.draw.rect(screen, white, rect)
-             if event.key == pygame.K_UP and ship_active:
-                 ship_y = ship_y - 25
-                 screen.fill(black)
-                 for y in range(20):
-                     for x in range(20):
-                         rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                         pygame.draw.rect(screen, white, rect)
-             if event.key == pygame.K_DOWN and ship_active:
-                 ship_y = ship_y + 25
-                 screen.fill(black)
-                 for y in range(20):
-                     for x in range(20):
-                         rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                         pygame.draw.rect(screen, white, rect)
-    return False
+        return False
 
-ship_active = False
-ship_x = 390
-ship_y = 110
-
-def ship(x, y, w, h, ic, ac, action=None):
-    global ship_active
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
-    
-    if x + w > mouse[0] > x and y + h > mouse[1] > y:
-        pygame.draw.rect(screen, ac,(x, y, w, h))
-        if click[0] == 1:
-            ship_active = True
-            return
-    else:
-        if click[0] == 1:
-            ship_active = False
-    if ship_active:
-         pygame.draw.rect(screen, blue,(x, y, w, h))
-    else:
-         pygame.draw.rect(screen, ic,(x, y, w, h))
 
 # game program
 def program():
     screen.fill(black)       
 
+    bootje1 = bootje(390, 110)
+    bootje2 = bootje(440, 110)
+    bootje3 = bootje(490, 110)
+    bootje4 = bootje(540, 110)
+
+    bootje5 = bootje(390, 560)
+    bootje6 = bootje(440, 535)
+    bootje7 = bootje(490, 535)
+    bootje8 = bootje(540, 510)
+
+
     while not process_events():
-        ship(ship_x, ship_y, 20, 45, red, green, None)
+
+        bootje1.ship(20, 45, red, green, None)
+        bootje2.ship(20, 70, red, green, None)
+        bootje3.ship(20, 70, red, green, None)
+        bootje4.ship(20, 95, red, green, None)
+
+        bootje5.ship(20, 45, red, green, None)
+        bootje6.ship(20, 70, red, green, None)
+        bootje7.ship(20, 70, red, green, None)
+        bootje8.ship(20, 95, red, green, None)
+
+        bootje1.move()
+        bootje2.move()
+        bootje3.move()
+        bootje4.move()
+
+        bootje5.move()
+        bootje6.move()
+        bootje7.move()
+        bootje8.move()
+
+
         button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
         pygame.display.flip()
         clock.tick(fps)
+
+
 
 
 game_intro()
