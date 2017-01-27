@@ -291,9 +291,35 @@ def process_events():
 # game program
 def program():
     while not process_events():
-        image = pygame.image.load(image_file).convert()
+        for y in range(20):
+                for x in range(20):
+                    rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                    pygame.draw.rect(screen, white, rect)
+        
 
-        class Character:
+    button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
+                
+    pygame.display.flip()
+    clock.tick(fps)
+
+
+
+
+
+        
+
+
+
+game_intro()
+program()
+pygame.quit()
+quit()
+
+
+
+
+
+"""class Character:
             def __init__(self,rect):
                 self.rect = pygame.Rect(rect)
                 self.click = False
@@ -330,23 +356,5 @@ def program():
             MyPlayer.rect.center = screen.get_rect().center #beginpositie vierkant
             while 1:
                 main(screen,MyPlayer)
-                
+             """   
                     
-
-                button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
-                
-                pygame.display.flip()
-                clock.tick(fps)
-
-
-
-
-
-        
-
-
-
-game_intro()
-program()
-pygame.quit()
-quit()

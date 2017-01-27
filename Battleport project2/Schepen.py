@@ -29,6 +29,8 @@ clock = pygame.time.Clock()
 def Menu():
     game_intro()
 
+def SelecteerBootje():
+    return 0
 
 def Verder():
     size = (width, height)
@@ -45,7 +47,7 @@ def Verder():
         for requested_line in requested_lines:
             if font.size(requested_line)[0] > rect.width:
                 words = requested_line.split(' ')
-                
+                # Start a new line
                 accumulated_line = ""
                 for word in words:
                     test_line = accumulated_line + word + " "
@@ -243,6 +245,7 @@ def button(text, x, y, w, h, ic, ac, l, action=None):
 
 
 
+
 # menu screen
 def game_intro():
     intro = True
@@ -281,55 +284,56 @@ def game_intro():
 
 # process events
 def process_events():
+    global ship_x
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return True
+        if event.type == pygame.KEYDOWN:
+             if event.key == pygame.K_LEFT and ship_active:
+                ship_x = ship_x - 10
+             if event.type == pygame.K_RIGHT and ship_active:
+                ship_x = ship_x + 10
     return False
 
+ship_active = False
+ship_x = 430
+ship_y = 300
+
+def ship(x, y, w, h, ic, ac, action=None):
+    global ship_active
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:
+        pygame.draw.rect(screen, ac,(x, y, w, h))
+        if click[0] == 1:
+            ship_active = True
+            return
+    else:
+        if click[0] == 1:
+            ship_active = False
+    if ship_active:
+         pygame.draw.rect(screen, blue,(x, y, w, h))
+    else:
+         pygame.draw.rect(screen, ic,(x, y, w, h))
 
 
 
 # game program
 def program():
+    screen.fill(black)
+    
     while not process_events():
-        image = pygame.image.load(image_file).convert()
-        start_rect = image.get_rect()
-        image_rect = start_rect
-        running = True
-        while running:
-            
-            event = pygame.event.poll()
-            keyinput = pygame.key.get_pressed()
-            # exit on corner 'x' click or escape key press
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                print(event.pos, list(event.pos))  # test
-                mouse_loc = "mouse click at (%d, %d)" % event.pos
-                pygame.display.set_caption(mouse_loc)
-                mouse_pos = list(event.pos)
-                image_rect = start_rect.move(mouse_pos)
-            # this erases the old sreen with black
-            screen.fill(black)
-            for y in range(20):
-                for x in range(20):
-                    rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                    pygame.draw.rect(screen, white, rect)
-            # put the image on the screen
-            screen.blit(image, image_rect)
-            # update screen
+        for y in range(20):
+            for x in range(20):
+                rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                pygame.draw.rect(screen, white, rect)
 
+           
+            ship(ship_x, ship_y, 20, 50, red, green, None)
             button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
             pygame.display.flip()
             clock.tick(fps)
-
-
-
-
-
-        
-
 
 
 game_intro()
