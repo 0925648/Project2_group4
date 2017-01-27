@@ -285,6 +285,7 @@ def game_intro():
 # process events
 def process_events():
     global ship_x
+    global ship_y
     for y in range(20):
         for x in range(20):
             rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
@@ -308,6 +309,20 @@ def process_events():
                     for x in range(20):
                         rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
                         pygame.draw.rect(screen, white, rect)
+             if event.key == pygame.K_UP and ship_active:
+                 ship_y = ship_y - 25
+                 screen.fill(black)
+                 for y in range(20):
+                     for x in range(20):
+                         rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                         pygame.draw.rect(screen, white, rect)
+             if event.key == pygame.K_DOWN and ship_active:
+                 ship_y = ship_y + 25
+                 screen.fill(black)
+                 for y in range(20):
+                     for x in range(20):
+                         rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                         pygame.draw.rect(screen, white, rect)
     return False
 
 ship_active = False
