@@ -286,9 +286,10 @@ def game_intro():
         clock.tick(fps)
 
 class bootje:
-    def __init__ (self, ship_x, ship_y):
+    def __init__ (self, ship_x, ship_y, maxSteps):
         self.ship_x = ship_x
         self.ship_y = ship_y
+        self.maxSteps = maxSteps
         self.ship_active = False
     
     def ship(self, w, h, ic, ac, action=None):
@@ -311,28 +312,33 @@ class bootje:
              pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, w, h))
 
     def move(self):
-        if self.ship_active:
-            keys = pygame.key.get_pressed()
-            if keys [pygame.K_LEFT]:
-                self.ship_x = self.ship_x - 25
-                self.ship_active = False
-                screen.fill(black)
-                grid()            
-            if keys[pygame.K_RIGHT]:
-                self.ship_x = self.ship_x + 25
-                self.ship_active = False
-                screen.fill(black)
-                grid()
-            if keys[pygame.K_UP]:
-                self.ship_y = self.ship_y - 25
-                self.ship_active = False
-                screen.fill(black)
-                grid()
-            if keys[pygame.K_DOWN]:
-                self.ship_y = self.ship_y + 25
-                self.ship_active = False
-                screen.fill(black)
-                grid()
+        if not self.maxSteps == 0:
+            if self.ship_active:
+                keys = pygame.key.get_pressed()
+                if keys [pygame.K_LEFT]:
+                    self.ship_x = self.ship_x - 25
+                    self.ship_active = False
+                    self.maxSteps = self.maxSteps - 1
+                    screen.fill(black)
+                    grid()            
+                if keys[pygame.K_RIGHT]:
+                    self.ship_x = self.ship_x + 25
+                    self.ship_active = False
+                    self.maxSteps = self.maxSteps - 1
+                    screen.fill(black)
+                    grid()
+                if keys[pygame.K_UP]:
+                    self.ship_y = self.ship_y - 25
+                    self.ship_active = False
+                    self.maxSteps = self.maxSteps - 1
+                    screen.fill(black)
+                    grid()
+                if keys[pygame.K_DOWN]:
+                    self.ship_y = self.ship_y + 25
+                    self.ship_active = False
+                    self.maxSteps = self.maxSteps - 1
+                    screen.fill(black)
+                    grid()
 
 # process events
 def process_events():
@@ -350,15 +356,15 @@ def process_events():
 def program():
     screen.fill(black)       
 
-    bootje1 = bootje(390, 110)
-    bootje2 = bootje(440, 110)
-    bootje3 = bootje(490, 110)
-    bootje4 = bootje(540, 110)
+    bootje1 = bootje(390, 110, 3)
+    bootje2 = bootje(440, 110, 2)
+    bootje3 = bootje(490, 110, 2)
+    bootje4 = bootje(540, 110, 1)
 
-    bootje5 = bootje(390, 560)
-    bootje6 = bootje(440, 535)
-    bootje7 = bootje(490, 535)
-    bootje8 = bootje(540, 510)
+    bootje5 = bootje(390, 560, 3)
+    bootje6 = bootje(440, 535, 2)
+    bootje7 = bootje(490, 535, 2)
+    bootje8 = bootje(540, 510, 1)
 
 
     while not process_events():
