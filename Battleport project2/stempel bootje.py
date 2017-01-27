@@ -319,7 +319,7 @@ quit()
 
 
 
-"""class Character:
+class Character:
             def __init__(self,rect):
                 self.rect = pygame.Rect(rect)
                 self.click = False
@@ -356,5 +356,5 @@ quit()
             MyPlayer.rect.center = screen.get_rect().center #beginpositie vierkant
             while 1:
                 main(screen,MyPlayer)
-             """   
+
                     

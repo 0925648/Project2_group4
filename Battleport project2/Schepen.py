@@ -285,19 +285,34 @@ def game_intro():
 # process events
 def process_events():
     global ship_x
+    for y in range(20):
+        for x in range(20):
+            rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+            pygame.draw.rect(screen, white, rect)
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return True
         if event.type == pygame.KEYDOWN:
              if event.key == pygame.K_LEFT and ship_active:
-                ship_x = ship_x - 10
-             if event.type == pygame.K_RIGHT and ship_active:
-                ship_x = ship_x + 10
+                ship_x = ship_x - 25
+                screen.fill(black)
+                for y in range(20):
+                    for x in range(20):
+                        rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                        pygame.draw.rect(screen, white, rect)
+             if event.key == pygame.K_RIGHT and ship_active:
+                ship_x = ship_x + 25
+                screen.fill(black)
+                for y in range(20):
+                    for x in range(20):
+                        rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
+                        pygame.draw.rect(screen, white, rect)
     return False
 
 ship_active = False
-ship_x = 430
-ship_y = 300
+ship_x = 390
+ship_y = 110
 
 def ship(x, y, w, h, ic, ac, action=None):
     global ship_active
@@ -317,23 +332,15 @@ def ship(x, y, w, h, ic, ac, action=None):
     else:
          pygame.draw.rect(screen, ic,(x, y, w, h))
 
-
-
 # game program
 def program():
-    screen.fill(black)
-    
-    while not process_events():
-        for y in range(20):
-            for x in range(20):
-                rect = pygame.Rect(x * gridSize + width / 2 - gridX * gridSize / 2, y * gridSize + height / 2 - gridY * gridSize / 2, tileSize, tileSize)
-                pygame.draw.rect(screen, white, rect)
+    screen.fill(black)       
 
-           
-            ship(ship_x, ship_y, 20, 50, red, green, None)
-            button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
-            pygame.display.flip()
-            clock.tick(fps)
+    while not process_events():
+        ship(ship_x, ship_y, 20, 45, red, green, None)
+        button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
+        pygame.display.flip()
+        clock.tick(fps)
 
 
 game_intro()
