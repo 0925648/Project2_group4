@@ -81,8 +81,8 @@ class text_box:
 			if self.font.size(self.text)[0] > self.rect.size[0]-5:# makes sure it isn't making text outside of the rect
 				self.text = self.text[0:-1]
 inp = input_page()# make the page class
-text = text_box((int(width/1.75),height/2-25),200,25,"First text box -->")# make the text box classes
-text2 = text_box((int(width/1.75),height/2+25),200,25,"Second text box -->")
+text = text_box((int(width/1.75),height/2-25),200,25,"Name player 1:")# make the text box classes
+text2 = text_box((int(width/1.75),height/2+25),200,25,"Name player 2")
 inp.lst = [text,text2]# add the boxes to a list
 while done == False:
     
