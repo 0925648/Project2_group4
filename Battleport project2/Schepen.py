@@ -1,5 +1,6 @@
 import pygame
 import time
+from setuptools.command import rotate
 
 pygame.init()
 
@@ -290,6 +291,7 @@ class bootje:
         self.ship_x = ship_x
         self.ship_y = ship_y
         self.maxSteps = maxSteps
+        self.rotate = rotate
         self.ship_active = False
     
     def ship(self, w, h, ic, ac, action=None):
@@ -339,13 +341,15 @@ class bootje:
                     self.maxSteps = self.maxSteps - 1
                     screen.fill(black)
                     grid()
+                if keys[pygame.K_SPACE]:
+                    ????
 
 # process events
 def process_events():
     #boot = b
     #global ship_x
     #global ship_y
-    grid()
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return True
@@ -355,7 +359,7 @@ def process_events():
 # game program
 def program():
     screen.fill(black)       
-
+    grid()
     bootje1 = bootje(390, 110, 3)
     bootje2 = bootje(440, 110, 2)
     bootje3 = bootje(490, 110, 2)
