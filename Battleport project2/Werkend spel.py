@@ -77,6 +77,7 @@ background = pygame.image.load("battleship-045.jpg")
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Battleport')
 clock = pygame.time.Clock()
+myfont=pygame.font.SysFont(None,30)
 
 def grid():
     for y in range(20):
@@ -288,77 +289,153 @@ def game_intro():
         clock.tick(fps)
 
 class bootje:
-    def __init__ (self, ship_x, ship_y,steps,length):
+    def __init__ (self, ship_x, ship_y, length, team, hp):
         self.ship_x = ship_x
         self.ship_y = ship_y
+        self.width = 20
+        self.height = length * 20 + (length - 1) * 5
         self.ship_active = False
         self.zetten = 0
         self.steps = (5-length)
         self.length = length
         self.bonus = 0
+        self.stance = "attack"
+        self.team = team
+        self.hp = length
+        self.damage = 1
+
     
     def ship(self, w, h, ic, ac, mc, action=None):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if self.ship_x + w > mouse[0] > self.ship_x and self.ship_y + h > mouse[1] > self.ship_y:
-            pygame.draw.rect(screen, mc,(self.ship_x, self.ship_y, w, h))
+            pygame.draw.rect(screen, mc,(self.ship_x, self.ship_y, self.width, self.height))
             if click[0] == 1 and action != None:
                 self.ship_active = True
-            if self.ship_active:
-                action()
+                screen.fill(black)
+                grid()
+
         else:
             if click[0] == 1 and action != None:
                 self.ship_active = False
         if self.steps == 0:
-            pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, w, h))
+            pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, self.width, self.height))
         else:
             if self.ship_active:
-                    pygame.draw.rect(screen, ac,(self.ship_x, self.ship_y, w, h)) 
+                    pygame.draw.rect(screen, ac,(self.ship_x, self.ship_y, self.width, self.height)) 
             elif self.ship_x + w > mouse[0] > self.ship_x and self.ship_y + h > mouse[1] > self.ship_y:
-                pygame.draw.rect(screen, mc,(self.ship_x, self.ship_y, w, h))
+                pygame.draw.rect(screen, mc,(self.ship_x, self.ship_y, self.width, self.height))
             else:
-                pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, w, h))
+                pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, self.width, self.height))
+
+        if self.ship_active:
+            action()
+
+
+    def change_stance(self):
+        if self.team == red:
+            print("blue")
+            if self.stance == "attack":
+                print("attackstance")
+                self.ship_y += (self.length - 1) * 20 + (self.length - 2) * 5 + 5
+                w = self.width
+                h = self.height
+                self.height = w
+                self.width = h
+                self.stance = "defense"
+                screen.fill(black)
+                grid()
+            else:
+                print("defensestance")
+                self.ship_y -= (self.length - 1) * 20 + (self.length - 2) * 5 + 5
+                w = self.width
+                h = self.height
+                self.height = w
+                self.width = h
+                self.stance = "attack"
+                screen.fill(black)
+                grid()
+        if self.team == blue:
+                print("blue")
+                if self.stance == "attack":
+                    print("attackstance")
+                    self.ship_y += (self.length - 1) * -5 + (self.length - 2) * 5 + 5
+                    w = self.width
+                    h = self.height
+                    self.height = w
+                    self.width = h
+                    self.stance = "defense"
+                    screen.fill(black)
+                    grid()
+                else:
+                    print("defensestance")
+                    self.ship_y -= (self.length - 1) * -5 + (self.length - 2) * 5 + 5
+                    w = self.width
+                    h = self.height
+                    self.height = w
+                    self.width = h
+                    self.stance = "attack"
+                    screen.fill(black)
+                    grid()
+
+    def destroyed(self):
+        self.ship_active = False
+
 
     def move(self):
         if self.zetten != self.steps +self.bonus:
             if self.ship_active:
+                hp_str = "HP:"+str(self.hp)
+                text=myfont.render(hp_str,True,[255,0,0]) 
+                screen.blit(text,[20,20]) 
                 keys = pygame.key.get_pressed()
                 if keys [pygame.K_LEFT]:
-                    self.ship_x = self.ship_x - 25
-                    self.zetten = self.zetten + 1
-                    self.ship_active = False
-                    screen.fill(black)
-                    grid()            
-                if keys[pygame.K_RIGHT]:
-                    self.ship_x = self.ship_x + 25
-                    self.zetten = self.zetten + 1
-                    self.ship_active = False
-                    screen.fill(black)
-                    grid()
-                if keys[pygame.K_UP]:
-                    self.ship_y = self.ship_y - 25
-                    self.zetten = self.zetten + 1
-                    self.ship_active = False
-                    screen.fill(black)
-                    grid()
-                if keys[pygame.K_DOWN]:
-                    self.ship_y = self.ship_y + 25
-                    self.zetten = self.zetten + 1
-                    self.ship_active = False
-                    screen.fill(black)
-                    grid()
+                    print("left")
+                    if self.ship_x - 25 >= 385:
+                        self.ship_x = self.ship_x - 25
+                        self.zetten = self.zetten + 1
+                        self.ship_active = False
+                        screen.fill(black)
+                        grid()            
+                elif keys[pygame.K_RIGHT]:
+                    print("right")
+                    if self.ship_x + 45 <= 880:
+                        self.ship_x = self.ship_x + 25
+                        self.zetten = self.zetten + 1
+                        self.ship_active = False
+                        screen.fill(black)
+                        grid()
+                elif keys[pygame.K_UP]:
+                    print("up")
+                    if self.ship_y - 25 >= 105:
+                        self.ship_y = self.ship_y - 25
+                        self.zetten = self.zetten + 1
+                        self.ship_active = False
+                        screen.fill(black)
+                        grid()
+                elif keys[pygame.K_DOWN]:
+                    print("down")
+                    if self.ship_y + 20 * (self.length - 1) + 25 <= 600:
+                        self.ship_y = self.ship_y + 25
+                        self.zetten = self.zetten + 1
+                        self.ship_active = False
+                        screen.fill(black)
+                        grid()
+                elif keys[pygame.K_SPACE]:
+                    print("key pressed")
+                    self.change_stance()
 
 
 
-bootje1 = bootje(390, 110,2,2)
-bootje2 = bootje(440, 110,2,3)
-bootje3 = bootje(490, 110,2,3)
-bootje4 = bootje(540, 110,2,4)
+bootje1 = bootje(390, 110, 2, red, 2)
+bootje2 = bootje(440, 110, 3, red, 3)
+bootje3 = bootje(490, 110, 3, red, 3)
+bootje4 = bootje(540, 110, 4, red, 4)
 
-bootje5 = bootje(390, 560,2,2)
-bootje6 = bootje(440, 535,2,3)
-bootje7 = bootje(490, 535,2,3)
-bootje8 = bootje(540, 510,2,4)
+bootje5 = bootje(390, 560, 2, blue, 2)
+bootje6 = bootje(440, 535, 3, blue, 3)
+bootje7 = bootje(490, 535, 3, blue, 3)
+bootje8 = bootje(540, 510, 4, blue, 4)
 
 # process events
 def process_events():
@@ -488,7 +565,7 @@ def program():
             bootje2.ship(20, 70, red, green, light_red)
             bootje3.ship(20, 70, red, green, light_red)
             bootje4.ship(20, 95, red, green, light_red)
-            
+
 
         button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
         button("Pass turn", 10, 650, 175, 60,white,green,5, turn_change)
