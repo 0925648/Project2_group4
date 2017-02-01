@@ -23,6 +23,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Battleport_project2.py" />
+    <Compile Include="meh.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Restructuring.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Werkend spel.py">
       <SubType>Code</SubType>
     </Compile>
