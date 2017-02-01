@@ -658,20 +658,19 @@ def turn_change():
 def win():
     if blueteam.Total <= 0:
         size = (width, height)
-        pygame.init()
         screen.blit(background, [0, 0])
-        message_display("JE HEBT GEWONNEN" + (text.text),"bauhaus93",130,white)    
-        message_display("JE HEBT GEWONNEN" + (text.text),"bauhaus93",125,black)
+        message_display((text2.text) + " heeft gewonnen!","bauhaus93",50,black)
         button("Terug naar menu", 1120, 10, 150, 60, white, green, 5, Menu)
-        
-        
+    else:
+        size = (width, height)
+        screen.blit(background, [0, 0])
+        message_display((text.text) + " heeft gewonnen!","bauhaus93",50,black)
+        button("Terug naar menu", 1120, 10, 150, 60, white, green, 5, Menu)
         
         
         
              
 game_intro()
 program()
-
-
 pygame.quit()
 quit()
