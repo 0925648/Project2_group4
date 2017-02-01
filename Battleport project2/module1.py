@@ -626,6 +626,8 @@ def turn_change():
         pygame.display.flip()
         
 
+
+
 game_intro()
 program()
 pygame.quit()
