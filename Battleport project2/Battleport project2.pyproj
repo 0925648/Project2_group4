@@ -32,7 +32,6 @@
     <Compile Include="Werkend spel.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PyInputBox.py" />
     <Compile Include="Schepen.py">
       <SubType>Code</SubType>
     </Compile>
