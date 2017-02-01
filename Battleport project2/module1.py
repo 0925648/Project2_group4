@@ -303,6 +303,7 @@ class bootje:
         self.team = team
         self.hp = length
         self.damage = 1
+        self.attack = False
 
     
     def ship(self, w, h, ic, ac, mc, action=None):
@@ -318,13 +319,18 @@ class bootje:
         else:
             if click[0] == 1 and action != None:
                 self.ship_active = False
+
         if self.steps == 0:
             pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, self.width, self.height))
         else:
             if self.ship_active:
-                    pygame.draw.rect(screen, ac,(self.ship_x, self.ship_y, self.width, self.height)) 
+                pygame.draw.rect(screen, ac,(self.ship_x, self.ship_y, self.width, self.height)) 
+                hp_str = "HP:"+str(self.hp)
+                text=myfont.render(hp_str,True,[255,0,0]) 
+                screen.blit(text,[20,20])
             elif self.ship_x + w > mouse[0] > self.ship_x and self.ship_y + h > mouse[1] > self.ship_y:
                 pygame.draw.rect(screen, mc,(self.ship_x, self.ship_y, self.width, self.height))
+                
             else:
                 pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, self.width, self.height))
 
@@ -378,6 +384,18 @@ class bootje:
                     screen.fill(black)
                     grid()
 
+
+    def attack(self):
+        if self.ship_active and self.team == red:
+            self.attack = True
+            if self.team == blue :
+                self.hp -= self.damage
+            if self.hp <= 0:
+                destroyed()
+
+
+
+
     def destroyed(self):
         self.ship_active = False
 
@@ -385,9 +403,6 @@ class bootje:
     def move(self):
         if self.zetten != self.steps +self.bonus:
             if self.ship_active:
-                hp_str = "HP:"+str(self.hp)
-                text=myfont.render(hp_str,True,[255,0,0]) 
-                screen.blit(text,[20,20]) 
                 keys = pygame.key.get_pressed()
                 if keys [pygame.K_LEFT]:
                     print("left")
@@ -541,6 +556,8 @@ def name_input():
 def program():
     screen.fill(black)  
     grid()
+
+
 
     while not process_events():
 
