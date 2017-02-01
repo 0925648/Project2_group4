@@ -5,8 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e03578d4-9098-4e43-b2e4-e33eaafe9642</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>derp.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -24,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Battleport_project2.py" />
+    <Compile Include="derp.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Restructuring.py">
       <SubType>Code</SubType>
     </Compile>
