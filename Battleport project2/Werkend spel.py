@@ -77,7 +77,6 @@ background = pygame.image.load("battleship-045.jpg")
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Battleport')
 clock = pygame.time.Clock()
-myfont=pygame.font.SysFont(None,30)
 
 def grid():
     for y in range(20):
@@ -287,9 +286,9 @@ def game_intro():
 
         pygame.display.update()
         clock.tick(fps)
-
+        
 class bootje:
-    def __init__ (self, ship_x, ship_y, length, team, hp):
+    def __init__ (self, ship_x, ship_y, length, team,hp):
         self.ship_x = ship_x
         self.ship_y = ship_y
         self.width = 20
@@ -304,17 +303,13 @@ class bootje:
         self.hp = length
         self.damage = 1
 
-    
     def ship(self, w, h, ic, ac, mc, action=None):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
-        if self.ship_x + w > mouse[0] > self.ship_x and self.ship_y + h > mouse[1] > self.ship_y:
+        if self.ship_x + self.width > mouse[0] > self.ship_x and self.ship_y + self.height > mouse[1] > self.ship_y:
             pygame.draw.rect(screen, mc,(self.ship_x, self.ship_y, self.width, self.height))
             if click[0] == 1 and action != None:
                 self.ship_active = True
-                screen.fill(black)
-                grid()
-
         else:
             if click[0] == 1 and action != None:
                 self.ship_active = False
@@ -323,7 +318,7 @@ class bootje:
         else:
             if self.ship_active:
                     pygame.draw.rect(screen, ac,(self.ship_x, self.ship_y, self.width, self.height)) 
-            elif self.ship_x + w > mouse[0] > self.ship_x and self.ship_y + h > mouse[1] > self.ship_y:
+            elif self.ship_x + self.width > mouse[0] > self.ship_x and self.ship_y + self.height > mouse[1] > self.ship_y:
                 pygame.draw.rect(screen, mc,(self.ship_x, self.ship_y, self.width, self.height))
             else:
                 pygame.draw.rect(screen, ic,(self.ship_x, self.ship_y, self.width, self.height))
@@ -331,63 +326,60 @@ class bootje:
         if self.ship_active:
             action()
 
-
     def change_stance(self):
         if self.team == red:
-            print("blue")
+            print("red")
             if self.stance == "attack":
-                print("attackstance")
+                print("defense")
                 self.ship_y += (self.length - 1) * 20 + (self.length - 2) * 5 + 5
                 w = self.width
                 h = self.height
                 self.height = w
                 self.width = h
                 self.stance = "defense"
+                self.ship_active = False
                 screen.fill(black)
                 grid()
             else:
-                print("defensestance")
+                print("attack")
                 self.ship_y -= (self.length - 1) * 20 + (self.length - 2) * 5 + 5
                 w = self.width
                 h = self.height
                 self.height = w
                 self.width = h
                 self.stance = "attack"
+                self.ship_active = False
                 screen.fill(black)
                 grid()
         if self.team == blue:
-                print("blue")
-                if self.stance == "attack":
-                    print("attackstance")
-                    self.ship_y += (self.length - 1) * -5 + (self.length - 2) * 5 + 5
-                    w = self.width
-                    h = self.height
-                    self.height = w
-                    self.width = h
-                    self.stance = "defense"
-                    screen.fill(black)
-                    grid()
-                else:
-                    print("defensestance")
-                    self.ship_y -= (self.length - 1) * -5 + (self.length - 2) * 5 + 5
-                    w = self.width
-                    h = self.height
-                    self.height = w
-                    self.width = h
-                    self.stance = "attack"
-                    screen.fill(black)
-                    grid()
-
-    def destroyed(self):
-        self.ship_active = False
+            print("blue")
+            if self.stance == "attack":
+                print("defense")
+                self.ship_y += (self.length - 1) * -5 + (self.length - 2) * 5 + 5
+                w = self.width
+                h = self.height
+                self.height = w
+                self.width = h
+                self.stance = "defense"
+                self.ship_active = False
+                screen.fill(black)
+                grid()
+            else:
+                print("attack")
+                self.ship_y -= (self.length - 1) * -5 + (self.length - 2) * 5 + 5
+                w = self.width
+                h = self.height
+                self.height = w
+                self.width = h
+                self.stance = "attack"
+                self.ship_active = False
+                screen.fill(black)
+                grid()
 
 
     def move(self):
         if self.zetten != self.steps +self.bonus:
             if self.ship_active:
-                hp_str = "HP:"+str(self.hp)
-                text=myfont.render(hp_str,True,[255,0,0]) 
-                screen.blit(text,[20,20]) 
                 keys = pygame.key.get_pressed()
                 if keys [pygame.K_LEFT]:
                     print("left")
@@ -427,15 +419,16 @@ class bootje:
 
 
 
-bootje1 = bootje(390, 110, 2, red, 2)
-bootje2 = bootje(440, 110, 3, red, 3)
-bootje3 = bootje(490, 110, 3, red, 3)
-bootje4 = bootje(540, 110, 4, red, 4)
+bootje1 = bootje(390, 110, 2, red,2)
+bootje2 = bootje(440, 110, 3, red,3)
+bootje3 = bootje(490, 110, 3, red,3)
+bootje4 = bootje(540, 110, 4, red,4)
 
-bootje5 = bootje(390, 560, 2, blue, 2)
-bootje6 = bootje(440, 535, 3, blue, 3)
-bootje7 = bootje(490, 535, 3, blue, 3)
-bootje8 = bootje(540, 510, 4, blue, 4)
+bootje5 = bootje(390, 560, 2, blue,2)
+bootje6 = bootje(440, 535, 3, blue,3)
+bootje7 = bootje(490, 535, 3, blue,3)
+bootje8 = bootje(540, 510, 4, blue,4)
+
 
 # process events
 def process_events():
@@ -445,76 +438,74 @@ def process_events():
         if event.type == pygame.QUIT:
             return True
         return False
-
 def name_input():
     class input_page:
-        def __init__(self):
-            self.lst = []
-            self.current = 0
+	    def __init__(self):
+		    self.lst = []
+		    self.current = 0
 
-        def get_input(self,event,mouse_pos):
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN or event.key == pygame.K_TAB:
-                    if self.current < len(self.lst)-1:
-                        self.current += 1
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                for i in range(len(self.lst)):
-                    if self.lst[i].rect.collidepoint(mouse_pos):
-                        self.lst[i].current = True
-                        self.current = i
-                        for g in range(len(self.lst)):
-                            if g != i:
-                                self.lst[g].current = False
-
-            for i in range(len(self.lst)):
-                if i == self.current:
-                    self.lst[i].current = True
-                    self.lst[i].get_input(event)
-                    for g in range(len(self.lst)):
-                        if g != i:
-                            self.lst[g].current = False
-
-        def render(self,screen):
-            for i in range(len(self.lst)):
-                self.lst[i].render(screen)
-
+	    def get_input(self,event,mouse_pos):
+		    if event.type == pygame.KEYDOWN:
+			    if event.key == pygame.K_RETURN or event.key == pygame.K_TAB:
+				    if self.current < len(self.lst)-1:
+					    self.current += 1
+		    if event.type == pygame.MOUSEBUTTONDOWN:
+			    for i in range(len(self.lst)):
+				    if self.lst[i].rect.collidepoint(mouse_pos):
+					    self.lst[i].current = True
+					    self.current = i
+					    for g in range(len(self.lst)):
+						    if g != i:
+							    self.lst[g].current = False
+				
+		    for i in range(len(self.lst)):
+			    if i == self.current:
+				    self.lst[i].current = True
+				    self.lst[i].get_input(event)
+				    for g in range(len(self.lst)):
+						    if g != i:
+							    self.lst[g].current = False
+				
+	    def render(self,screen):
+		    for i in range(len(self.lst)):
+			    self.lst[i].render(screen)
     class text_box:
-        def __init__(self,location,width,height,question = None,text_color = (255,255,255), font = None,font_size = 20):
-            self.location = location
-            self.text = ""
-            self.question = question
-            self.current = False
-            self.rect = pygame.Rect((location),(width,max(height,25)))
-            self.font_size = font_size
-            self.font = pygame.font.Font(font,font_size)
-            self.text_color = text_color
-            self.outline = (255,255,255)
-            self.rect_color = (0,0,0)
+	    def __init__(self,location,width,height,question = None,text_color = (255,255,255), font = None,font_size = 20):
+		    self.location = location
+		    self.text = ""
+		    self.question = question
+		    self.current = False
+		    self.rect = pygame.Rect((location),(width,max(height,25)))
+		    self.font_size = font_size
+		    self.font = pygame.font.Font(font,font_size)
+		    self.text_color = text_color
+		    self.outline = (255,255,255)
+		    self.rect_color = (0,0,0)
 
-        def render(self,screen):
-            if self.current == True:
-                temp = (self.rect[0]-3,self.rect[1]-3,self.rect[2]+6,self.rect[3]+6)
-                pygame.draw.rect(screen,(255,105,34),temp)
-            pygame.draw.rect(screen,self.rect_color,self.rect)
-            pygame.draw.rect(screen,self.outline,self.rect,1)
-            screen.blit(self.font.render(self.question,1,self.text_color),(self.location[0]-self.font.size(self.question)[0]-100,self.location[1]+4))
-            screen.blit(self.font.render(self.text,1,self.text_color),(self.location[0]+2,self.location[1]+4))
-        def get_input(self,event):
-            if event.type == pygame.KEYDOWN:
-                if 31<event.key<127 and event.key != 8:
-                    if event.mod & (pygame.KMOD_SHIFT | pygame.KMOD_CAPS):
-                        if chr(event.key) in special.keys():
-                            self.text += special[chr(event.key)]
-                        else:
-                            self.text += chr(event.key).upper()
-                    else:
-                        self.text += chr(event.key)
-                if event.key == 8:
-                    self.text = self.text[0:-1]
-                if event.key == 127:
-                    self.text = ""
-                if self.font.size(self.text)[0] > self.rect.size[0]-5:
-                    self.text = self.text[0:-1]
+	    def render(self,screen):
+		    if self.current == True:
+			    temp = (self.rect[0]-3,self.rect[1]-3,self.rect[2]+6,self.rect[3]+6)
+			    pygame.draw.rect(screen,(255,105,34),temp)
+		    pygame.draw.rect(screen,self.rect_color,self.rect)
+		    pygame.draw.rect(screen,self.outline,self.rect,1)
+		    screen.blit(self.font.render(self.question,1,self.text_color),(self.location[0]-self.font.size(self.question)[0]-100,self.location[1]+4))
+		    screen.blit(self.font.render(self.text,1,self.text_color),(self.location[0]+2,self.location[1]+4))
+	    def get_input(self,event):
+		    if event.type == pygame.KEYDOWN:
+			    if 31<event.key<127 and event.key != 8:
+				    if event.mod & (pygame.KMOD_SHIFT | pygame.KMOD_CAPS):
+					    if chr(event.key) in special.keys():
+						    self.text += special[chr(event.key)]
+					    else:
+						    self.text += chr(event.key).upper()
+				    else:
+					    self.text += chr(event.key)
+			    if event.key == 8:
+				    self.text = self.text[0:-1]
+			    if event.key == 127:
+				    self.text = ""
+			    if self.font.size(self.text)[0] > self.rect.size[0]-5:
+				    self.text = self.text[0:-1]
     inp = input_page()
     text = text_box((int(width/1.75),height/2-25),200,25,"Player 1 Name: ")
     text2 = text_box((int(width/1.75),height/2+25),200,25,"Player 2 Name: ")
@@ -522,7 +513,6 @@ def name_input():
 
     done = False
     while done == False:
-    
         screen.fill((0,0,0))
         pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -537,11 +527,9 @@ def name_input():
         pygame.display.flip()
         clock.tick(fps)
 
-# game program
 def program():
     screen.fill(black)  
     grid()
-
     while not process_events():
 
         if turnPlayer1 == True:
@@ -566,7 +554,6 @@ def program():
             bootje3.ship(20, 70, red, green, light_red)
             bootje4.ship(20, 95, red, green, light_red)
 
-
         button("Menu", 1120, 10, 150, 60, white, green, 5, Menu)
         button("Pass turn", 10, 650, 175, 60,white,green,5, turn_change)
         pygame.display.flip()
@@ -578,15 +565,12 @@ def player2True():
     turnPlayer2 = True
     turnPlayer1 = False
     program()
-
 def player1True():
     global turnPlayer1
     global turnPlayer2
     turnPlayer2 = False
     turnPlayer1 = True
     program()
-
-
 def turn_change():
     screen.fill(black)
 
@@ -608,8 +592,9 @@ def turn_change():
 
         pygame.display.flip()
         
-
 game_intro()
 program()
+
+
 pygame.quit()
 quit()
