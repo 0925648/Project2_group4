@@ -1,6 +1,8 @@
 import pygame
 import time
-# import psycopg2
+import os
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+import psycopg2
 
 
 #database
@@ -153,7 +155,7 @@ def Verder():
     screen.blit(background, [0, 0])
     pygame.draw.rect(screen, white,[320,100,640,500])
 
-    text("Regels \n\n\nblabla\n\nTekst moet nog gewijzigd worden.\n\nBattleport kan gezien worden als een mix van Zeeslag en Hearthstone. Dit omdat de gameplay lijkt op dat van Zeeslag, maar kunnen de boten nu ook verplaatst worden. Ook zijn er twee decks met kaarten die jou helpen om van je tegenstander te winnen.\n\nBeide spelers hebben vier boten en een hand met kaarten. De bedoeling van dit strategische spel in om alle schepen van je tegenstander uit te schakelen. Zet tactische zetten en gebruik je kaarten slim. Doe dit beter dan je tegenstander en de winst is voor jou.")
+    text("Regels \n\nBattleport kan gezien worden als een mix van Zeeslag en Hearthstone. Dit omdat de gameplay lijkt op dat van Zeeslag, maar kunnen de boten nu ook verplaatst worden.\n\nBeide spelers hebben vier boten. De bedoeling van dit strategische spel is om alle schepen van je tegenstander uit te schakelen.Doe dit beter dan je tegenstander en de winst is voor jou.")
 
     while not process_events():
         pygame.display.update()                        
@@ -181,7 +183,7 @@ def instructies():
     screen.blit(background, [0,0])
     pygame.draw.rect(screen, white,[320,100,640,500])
 
-    text("Instructies \n\n\nBattleport kan gezien worden als een mix van Zeeslag en Hearthstone. Dit omdat de gameplay lijkt op dat van Zeeslag, maar kunnen de boten nu ook verplaatst worden. Ook zijn er twee decks met kaarten die jou helpen om van je tegenstander te winnen.\n\nBeide spelers hebben vier boten en een hand met kaarten. De bedoeling van dit strategische spel in om alle schepen van je tegenstander uit te schakelen. Zet tactische zetten en gebruik je kaarten slim. Doe dit beter dan je tegenstander en de winst is voor jou.")
+    text("Instructies \n\n\nPijltjestoetsen = Bewegen ship\n\nspatie = draaien ship\n\nz = aanvallen vijandig schip\n\nElke speler mag 2x per beurt aanvallen en elk bootje mag verplaatst worden volgens het aantal aangegeven stappen, wanneer er een ship gedraaid word en deze in de defensieve positie komt te staan mag deze niet verplaatst worden. De speler die als eerst alle vijandelijke boten heeft vernietigd wint het spel.")
 
     while not process_events():
         pygame.display.update()
@@ -660,8 +662,8 @@ def win():
         size = (width, height)
         pygame.init()
         screen.blit(background, [0, 0])
-        message_display("JE HEBT GEWONNEN" + (text.text),"bauhaus93",130,white)    
-        message_display("JE HEBT GEWONNEN" + (text.text),"bauhaus93",125,black)
+        message_display("JE HEBT GEWONNEN " + (text.text),"bauhaus93",100,white)    
+        message_display("JE HEBT GEWONNEN " + (text.text),"bauhaus93",95,black)
         button("Terug naar menu", 1120, 10, 150, 60, white, green, 5, Menu)
         
         
